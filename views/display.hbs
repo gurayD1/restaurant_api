@@ -1,0 +1,60 @@
+<h2>Showing {{perPage}} results on Page {{page}} {{#if borough}}filtered by {{borough}}{{/if}}</h2>
+{{#if data}}
+<table border="1">
+    <tr>
+        <th>#</th>
+        <th>Restaurant ID</th>
+        <th>Restaurant Name</th>
+        <th>Cuisine</th>
+        <th>Borough</th>
+        <th>Building Number</th>
+        <th>Street Name</th>
+        <th>Zip Code</th>
+        <th>Grading Date</th>
+        <th>Grade</th>
+        <th>Score</th>
+    </tr>
+
+    {{#each data}}
+    <tr>
+        <td scope="row"><b>{{@index}}</b></td>
+        <td>{{this.restaurant_id}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.cuisine}}</td>
+        <td>{{this.borough}}</td>
+        <td>{{this.address.building}}</td>
+        <td>{{this.address.street}}</td>
+        <td>{{this.address.zipcode}}</td>
+        <td>
+            <table class='innerTable'>
+                {{#each this.grades}}
+                <tr>
+                    <td>{{this.date}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </td>
+        <td>
+            <table class='innerTable'>
+                {{#each this.grades}}
+                <tr>
+                    <td>{{this.grade}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </td>
+        <td>
+            <table class='innerTable'>
+                {{#each this.grades}}
+                <tr>
+                    <td>{{this.score}}</td>
+                </tr>
+                {{/each}}
+            </table>
+        </td>
+    </tr>
+    {{/each}}
+    {{else}}
+    <h2>There are no results!</h2>
+    {{/if}}
+</table>
