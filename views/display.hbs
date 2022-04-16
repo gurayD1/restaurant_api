@@ -1,4 +1,27 @@
+    
+
+    <h1>Filter Restaurants</h1>
+    <form method="POST" action="filterrestaurants">
+        <div class='fields'>
+            <p><label><b>Select a page number</b></label><input id="page" name="page" type="number" value="{{page}}" required></p>
+            <p><label><b># of restaurants to display per page</b></label><input id="perPage" name="perPage" type="number" value="{{perPage}}" required></p>
+            <p><label><b>Borough (optional)</b></label><input id="borough" name="borough" type="text" value="{{borough}}"></p>
+        </div>
+        <div class='submit'><button type="submit">Submit</button></div><br />
+    </form>
+
+
+
 <h2>Showing {{perPage}} results on Page {{page}} {{#if borough}}filtered by {{borough}}{{/if}}</h2>
+<p>  <a class="btn btn-success"  href="insert" role="button">Insert a new Restaurant</a> </p>
+
+<form method="post" action="search">
+
+<div class='fields'>
+            <p><label><b>Enter Restaurant ID</b></label><input id="restaurantID" name="restaurantID" type="number"  required></p>
+        </div>
+        <div class='submit'><button type="submit">Submit</button></div><br />
+</form>
 {{#if data}}
 <table border="1">
     <tr>
@@ -13,6 +36,7 @@
         <th>Grading Date</th>
         <th>Grade</th>
         <th>Score</th>
+         <th colspan="2">Action</th>
     </tr>
 
     {{#each data}}
@@ -52,6 +76,9 @@
                 {{/each}}
             </table>
         </td>
+
+        <td> <a class="btn btn-outline-info" id="myUpdate" href="update?restaurantId={{this.restaurant_id}}" role="button">Update</a> </td>
+        <td> <a class="btn btn-outline-danger" href="delete?restaurantId={{this.restaurant_id}}" role="button">Delete</a> </td>
     </tr>
     {{/each}}
     {{else}}

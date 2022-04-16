@@ -59,8 +59,30 @@ class Restaurants {
                 reject(err);
             });
 
-        });
+        });        
+    
     }
+
+        // Create initialize method in restaurant database class
+        async  initialize2(connectionString) {
+
+            try {    
+               // connect to the atlas database
+               const connectToDB = await mongoose.connect(connectionString);
+               this.Restaurant = mongoose.model('Restaurant', RestaurantSchema);
+               return true;
+       
+           } catch (err) {
+               
+               console.log(`Could not connect to atlas server, error: '${err}'`);
+               return false;
+           }
+
+        }
+
+
+
+
 
     // Add a new document in restaurant collection using data passed
     async addNewRestaurant(data) {
@@ -110,6 +132,22 @@ class Restaurants {
             return 'No results found';
         }
     }
+
+
+  // Get restaurant by its id from the database
+  getRestaurantByrestaurantId(id) {
+    // Check if it is a valid object ID that the user enters
+    if (mongoose.isValidObjectId(id)) {
+        var result = this.Restaurant.findOne({ restaurant_id: id }).lean().exec();
+    }
+    // Return result or error message
+    if (result != null) {
+        return result;
+    }
+    else {
+        return 'No results found';
+    }
+}
 
     // Updates a restaurant by using its id
     async updateRestaurantById(data, id) {
