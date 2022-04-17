@@ -1,8 +1,14 @@
-    <h1>Log In</h1>
-    <form method="POST" action="login">
-        <div class='fields'>
-            <p><label><b>Enter User Name</b></label><input id="uName" name="uName" type="text" required></p>
-            <p><label><b>Enter Database Password</b></label><input id="password" name="password" type="text" required></p>
-        </div>
-        <div class='submit'><button type="submit">Submit</button></div><br />
-    </form>
+<h1>Log In</h1>
+{{#if errorMsg}}
+<h5>{{errorMsg}}</h5>
+{{else}}
+<h5>Please login first.</h5>
+{{/if}}
+<form method="POST" action="login">
+    <div class='fields'>
+        <p><label><b>Enter User Name</b></label><input id="uName" name="uName" type="text" required></p>
+        <p><label><b>Enter Database Password</b></label><input id="password" name="password" type="password" required>
+        </p>
+    </div>
+    <div class='submit'><button type="submit">Submit</button></div><br />
+</form>

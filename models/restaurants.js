@@ -39,50 +39,18 @@ RestaurantSchema = new Schema({
 class Restaurants {
 
     // Create initialize method in restaurant database class
-    initialize(connectionString) {
+    async initialize(connectionString) {
 
-        // Have to make a promise so that in app.js we can use .then
-        return new Promise((resolve, reject) => {
-
-            // Connect to the database
-            var db = mongoose.createConnection(connectionString, { useNewUrlParser: true, useUnifiedTopology: true });
-            console.log("Connected to database: " + connectionString);
-
-            // Once open, create a mongoose model on a Restaurant object using the schema
-            db.once('open', () => {
-                this.Restaurant = db.model('Restaurant', RestaurantSchema);
-                resolve();
-            });
-
-            // Otherwise, show an error
-            db.on('error', (err) => {
-                reject(err);
-            });
-
-        });        
-    
-    }
-
-        // Create initialize method in restaurant database class
-        async  initialize2(connectionString) {
-
-            try {    
-               // connect to the atlas database
-               const connectToDB = await mongoose.connect(connectionString);
-               this.Restaurant = mongoose.model('Restaurant', RestaurantSchema);
-               return true;
-       
-           } catch (err) {
-               
-               console.log(`Could not connect to atlas server, error: '${err}'`);
-               return false;
-           }
-
+        try {
+            // Connect to the atlas database
+            await mongoose.connect(connectionString);
+            this.Restaurant = mongoose.model('Restaurant', RestaurantSchema);
+            return true;
+        } catch (err) {
+            console.log(`Could not connect to atlas server, error: '${err}'`);
+            return false;
         }
-
-
-
-
+    }
 
     // Add a new document in restaurant collection using data passed
     async addNewRestaurant(data) {
@@ -91,7 +59,7 @@ class Restaurants {
 
         // Save to the database
         await resNew.save();
-        
+
         // Show success message
         return `${resNew._id} saved successfully!`;
     }
@@ -134,20 +102,15 @@ class Restaurants {
     }
 
 
-  // Get restaurant by its id from the database
-  getRestaurantByrestaurantId(id) {
-    // Check if it is a valid object ID that the user enters
-    if (mongoose.isValidObjectId(id)) {
-        var result = this.Restaurant.findOne({ restaurant_id: id }).lean().exec();
+    // Get restaurant by its id from the database
+    getRestaurantByRestaurantId(id) {
+        var result = this.Restaurant.findOne({ restaurant_id: id }).lean();
+        
+        // Return result or error message
+        if (result != null) {
+            return result;
+        }
     }
-    // Return result or error message
-    if (result != null) {
-        return result;
-    }
-    else {
-        return 'No results found';
-    }
-}
 
     // Updates a restaurant by using its id
     async updateRestaurantById(data, id) {

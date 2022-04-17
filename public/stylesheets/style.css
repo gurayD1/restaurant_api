@@ -2,9 +2,12 @@ body {
     text-align: center;
     margin: 0;
     display: flex;
-    min-height: 100vh;
     flex-direction: column;
     justify-content: space-between;
+}
+
+.body {
+    min-height: 35rem;
 }
 
 header {
@@ -16,7 +19,10 @@ header {
 footer {
     padding: 10px;
     border: 2px solid black;
-    line-height: 0.2;
+}
+
+footer p {
+    margin-bottom: 0.2rem;
 }
 
 header, footer {

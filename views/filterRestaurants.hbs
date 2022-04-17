@@ -1,0 +1,19 @@
+<h2>Filter Restaurants</h2>
+<form method="POST" action="searchrestaurants">
+    <div class='fields'>
+        <p><label><b>Select a page number</b></label><input id="page" name="page" type="number" required></p>
+        <p><label><b># of restaurants to display per page</b></label><input id="perPage" name="perPage" type="number"
+                required></p>
+        <p><label><b>Borough (optional)</b></label><input id="borough" name="borough" type="text"></p>
+    </div>
+    <div class='submit'><button type="submit">Submit</button></div><br />
+</form>
+<br />
+<h2>Search Restaurants by Restaurant ID</h2>
+<form method="post" action="search">
+    <div class='fields'>
+        <p><label><b>Enter Restaurant ID</b></label><input id="restaurantID" name="restaurantID" type="number" required>
+        </p>
+    </div>
+    <div class='submit'><button type="submit">Submit</button></div><br />
+</form>
