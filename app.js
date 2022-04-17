@@ -55,11 +55,13 @@ app.get('/', function (req, res) {
 	res.render('index', { title: 'Group Project' });
   }); 
 
-
+// login page 
   app.get('/api/login', function (req, res) {
 	res.render('login');
   }); 
 
+  // login page
+  // get the user name and the password and then connect to mongodb
   app.post('/api/login', function (req, res) {
     var user_name = req.body.uName;
     var password = req.body.password;
@@ -83,7 +85,9 @@ app.get('/', function (req, res) {
 
   }); 
 
-
+// update route
+// when user click on the update sign
+// it will call the update.hbs
   app.get('/api/update', async function(req, res){
     let Id = req.query.restaurantId;
 
@@ -96,7 +100,8 @@ app.get('/', function (req, res) {
     })
 
 })
-
+// when user finished updating
+// it will go back to main page
 app.post('/api/update', async function(req, res){
     mydate = req.body.gradingDate;
     mygrade = req.body.grade;
@@ -134,55 +139,32 @@ app.post('/api/update', async function(req, res){
 
         let updating = await db.Restaurant.findOneAndUpdate({restaurant_id: restaurant.restaurant_id}, restaurant);
 
-
         res.redirect("filterRestaurants2")
     
-        // var result = await db.getAllRestaurants(page, perPage, myborough);
-        // try {  
-        //     res.render("display", { title: 'Filtered Restaurant Results', data: result, page: page, perPage: perPage, borough: myborough });
-        // }
-        // catch (err) {
-        //     res.status(400).json({ error: `${err}` })
-        // }
 })
 
+// delete route
+// when user clicked on the delete button
+// it will delete the restaurant data and go back to main page
 app.get('/api/delete', async function(req, res){
     let Id = req.query.restaurantId;
 
   let deleting = await db.Restaurant.findOneAndDelete({restaurant_id: Id});
      
-
-    // sess = req.session;
-
-    // page = sess.page
-    // perPage =  sess.perPage
-    // myborough = sess.borough
-
     res.redirect("filterRestaurants2")
 
-
-    // var result = await db.getAllRestaurants(page, perPage, myborough);
-    //     try {  
-    //         res.render("display", { title: 'Filtered Restaurant Results', data: result, page: page, perPage: perPage, borough: myborough });
-    //     }
-    //     catch (err) {
-    //         res.status(400).json({ error: `${err}` })
-    //     }
-
-  
-
 })
-
+// search route
+// it will display only the matching restaurant data
 app.post('/api/search', async function (req, res) {
     let restaurantId = req.body.restaurantID;
     res.redirect("filterRestaurants2?restaurant_id="+restaurantId);
-//let restaurant = await db.getRestaurantByrestaurantId()
-
   
 })
 
 
-
+// insert route
+// it will display the inserRestaurant.hbs
 app.get('/api/insert',  function(req, res){
 
     res.render('insertRestaurant', {
@@ -190,27 +172,9 @@ app.get('/api/insert',  function(req, res){
         layout: false
     })
 
-    // sess = req.session;
-
-    // page = sess.page
-    // perPage =  sess.perPage
-    // myborough = sess.borough
-
-   
-
-
-    // var result = await db.getAllRestaurants(page, perPage, myborough);
-    //     try {  
-    //         res.render("display", { title: 'Filtered Restaurant Results', data: result, page: page, perPage: perPage, borough: myborough });
-    //     }
-    //     catch (err) {
-    //         res.status(400).json({ error: `${err}` })
-    //     }
-
-  
-
 })
-
+// it will insert the new data to the database
+// then go back to the main page
 app.post('/api/insert', async function (req, res){
 
     let restaurant ={
@@ -232,31 +196,15 @@ app.post('/api/insert', async function (req, res){
         restaurant_id: req.body.restaurantId
     }
 
-  
-
   let addRestaurant = await db.Restaurant.create(restaurant, function (err) {
     if (err) {
         console.log(`error occurs: '${err}'`);
     }
 });
-
-
-//   addNewRestaurant(restaurant, function(err, data){
-//     if(err){
-//       console.log(`error occurs: '${err}'`);
-//     }
-//     else{
-//       console.log("added successfully");
-//     }
-// });
-
-//  let addedRestaurant = await findByRestaurantID(restaurant.restaurant_id);
  
 res.redirect("filterRestaurants2")
 
 });
-
-
 
 
 
@@ -393,8 +341,6 @@ app.get("/api/filterRestaurants2", async function (req, res) {
 
     let resId = req.query.restaurant_id;
     
-    
-
     sess = req.session;
 
     page =  sess.page
@@ -403,13 +349,10 @@ app.get("/api/filterRestaurants2", async function (req, res) {
     var result
 
     if(resId){
-       //  result = await db.getRestaurantByrestaurantId(resId)
          result2 =  await db.Restaurant.findOne({restaurant_id: resId}).lean();
          result = [result2]
     }else{ 
      result = await db.getAllRestaurants(page, perPage, borough);}
-
-    
 
     try {  
         res.render("display", { title: 'Filtered Restaurant Results', data: result, page: page, perPage: perPage, borough: borough });
